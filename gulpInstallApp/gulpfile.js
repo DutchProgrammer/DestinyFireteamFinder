@@ -116,10 +116,10 @@ gulp.task('build-phonegap', ['build-main'], shell.task([
    'mkdir -p ../www/',
    'cp index.html ../www/',
    'rsync -av config.xml ../www/',
-   'rsync -av fonts ../www/',
+   //'rsync -av fonts ../www/',
    'rsync -av css ../www/',
    'rsync -av js ../www/',
-   'rsync -av sound ../www/',
+   //'rsync -av sound ../www/',
    'rsync -av  modules ../www/',
    //'cp -R config.xml fonts css js res sound modules ../www/',
    'cd ../ && phonegap remote build ios'
