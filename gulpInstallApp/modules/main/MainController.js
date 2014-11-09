@@ -103,6 +103,54 @@ var MainController = ['$rootScope', '$scope', '$location', function ($rootScope,
 
 	   return appAlert( content, callback, buttons, input);
 	};
+
+
+	document.addEventListener('deviceready', onDeviceReady);
+	function onDeviceReady() {
+		/*
+		Clear cache is needed for android because it caches the app html.
+		Side Effect if you clear cache it clear localstorage as well
+		*/
+		window.cache.clear( function(status) {
+			notify('Message: ' + status);
+		}, function(status) {
+			notify('Error: ' + status);
+		} );
+
+		// Override default HTML alert,confirm, prompt with native dialog
+		window.nativeAlert = window.alert;
+		window.nativeConfirm = window.confirm;
+		window.nativePrompt = window.prompt;
+		window.alert = window.appAlert;
+		window.confirm = window.appConfirm;
+		window.prompt = window.appPrompt;
+
+		//All binds http://docs.phonegap.com/en/2.5.0/cordova_events_events.md.html#menubutton
+		//When device is going offline
+		$(document).bind('offline', function () {
+			notify('device offline');
+			//app.checkConnection();
+		});
+		//When device is going online
+		$(document).bind('online', function () {
+			notify('device online');
+			//app.checkConnection();
+		});
+		//When device is going resume
+		$(document).bind('resume', function () {
+			notify('device resume');
+			//app.checkConnection();
+		});
+		//When device is going critical low on battery
+		$(document).bind('batterycritical', function () {
+			notify('device batterycritical');
+		});
+		//When device is going low on battery
+		$(document).bind('batterylow', function () {
+			notify('device batterylow');
+		});
+	});
+
 }];
 
 angular.module('Destiny.app').controller('MainController',MainController);
