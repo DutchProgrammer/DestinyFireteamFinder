@@ -24,8 +24,8 @@
 													<i class="fa fa-user"></i>
 												</span> 
 												<input class="form-control" placeholder="Email" name="email" id="email" ng-model="user.email" type="email" autofocus required>
-												<p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">Enter a valid email.</p>
 											</div>
+											<p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">Enter a valid email.</p>
 										</div>
 										<div class="form-group" ng-class="{ 'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine }">
 											<div class="input-group">
@@ -33,10 +33,10 @@
 													<i class="fa fa-lock"></i>
 												</span>
 												<input class="form-control" placeholder="Password" name="password" id="password" ng-model="user.password" type="password" value="" required>
-												<p ng-show="registerForm.password.$invalid && !registerForm.password.$pristine" class="help-block">Your password is required.</p>
-												<p ng-show="registerForm.password.$error.minlength" class="help-block">password is too short can have an minimal of 4.</p>
-												<p ng-show="registerForm.password.$error.maxlength" class="help-block">password is too long can have an max of 10.</p>
 											</div>
+											<p ng-show="registerForm.password.$invalid && !registerForm.password.$pristine" class="help-block">Your password is required.</p>
+											<p ng-show="registerForm.password.$error.minlength" class="help-block">password is too short can have an minimal of 4.</p>
+											<p ng-show="registerForm.password.$error.maxlength" class="help-block">password is too long can have an max of 10.</p>
 										</div>
 										<div class="form-group">
 											<div class="input-group-item">

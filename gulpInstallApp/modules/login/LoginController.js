@@ -1,6 +1,11 @@
 
-var LoginController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+var LoginController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
 	$rootScope.loading = false;
+
+	if ($rootScope.signedIn) {
+		$location.path('/home');
+		return;
+	}
 
 	$scope.submitForm = function (formController) {
 		var emailAddress = formController.email.$modelValue;
@@ -8,12 +13,13 @@ var LoginController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 
 		$scope.errorMessage = '';
 		$scope.errorType    = 'validation';
-		
+
 		if (!formController.$valid || !angular.isString(emailAddress) || !angular.isString(password) ) {
 			$scope.errorMessage = 'Enter valid data please';
 		} else {
 			//socket.emit('requestLogin', { 'email' : emailAddress.toString(), 'password' : password.toString() });
-			alert('verstuurd');
+			$rootScope.signedIn = true;
+			$location.path('/home');
 		}
 
 	};

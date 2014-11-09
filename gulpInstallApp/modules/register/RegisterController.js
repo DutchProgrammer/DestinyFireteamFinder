@@ -1,6 +1,11 @@
 
-var RegisterController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+var RegisterController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
 	$rootScope.loading = false;
+
+	if ($rootScope.signedIn) {
+		$location.path('/home');
+		return;
+	}
 
 	$scope.selectPlatform = function (platform) {
 		$scope.selectedPlatform = platform;
@@ -17,7 +22,8 @@ var RegisterController = ['$rootScope', '$scope', function ($rootScope, $scope) 
 			$scope.errorMessage = 'Enter valid data please';
 		} else {
 			//socket.emit('requestLogin', { 'email' : emailAddress.toString(), 'password' : password.toString() });
-			alert('verstuurd');
+			$rootScope.signedIn = true;
+			$location.path('/home');
 		}
 
 	};

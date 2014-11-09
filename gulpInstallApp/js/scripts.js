@@ -1,7 +1,7 @@
 var settingFiles = [{"title":"Notifications","url":"/notifications","icon":"bell"}];
 var navigationFiles = [{"title":"Home","url":"/home","icon":"home"},{"title":"Daily","url":"/daily","icon":"gamepad"},{"title":"Weekly","url":"/weekly","icon":"gamepad"},{"title":"Nightfall","url":"/nightfall","icon":"gamepad"},{"title":"Raid","url":"/raid","icon":"gamepad"},{"title":"Strike","url":"/strike","icon":"gamepad"},{"title":"Missions","url":"/missions","icon":"gamepad"}];
 var routeFiles = {"/daily":{"controller":"DailyController","templateUrl":"modules/daily/daily.html"},"/home":{"controller":"HomeController","templateUrl":"modules/home/home.html"},"/login":{"controller":"LoginController","templateUrl":"modules/login/login.html"},"/missions":{"controller":"MissionsController","templateUrl":"modules/missions/missions.html"},"/nightfall":{"controller":"NightfallController","templateUrl":"modules/nightfall/nightfall.html"},"/notifications":{"controller":"NotificationsController","templateUrl":"modules/notifications/notifications.html"},"/profile":{"controller":"ProfileController","templateUrl":"modules/profile/profile.html"},"/raid":{"controller":"RaidController","templateUrl":"modules/raid/raid.html"},"/register":{"controller":"RegisterController","templateUrl":"modules/register/register.html"},"/strike":{"controller":"StrikeController","templateUrl":"modules/strike/strike.html"},"/weekly":{"controller":"WeeklyController","templateUrl":"modules/weekly/weekly.html"}};
-/** Created at Sun Nov 09 2014 20:24:19 GMT+0100 (CET) **//**
+/** Created at Sun Nov 09 2014 23:57:00 GMT+0100 (CET) **//**
  * @license AngularJS v1.3.2
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
@@ -40582,8 +40582,13 @@ var HomeController = ['$rootScope', '$scope', '$location', function ($rootScope,
 
 angular.module('Destiny.app').controller('HomeController',HomeController);
 
-var LoginController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+var LoginController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
 	$rootScope.loading = false;
+
+	if ($rootScope.signedIn) {
+		$location.path('/home');
+		return;
+	}
 
 	$scope.submitForm = function (formController) {
 		var emailAddress = formController.email.$modelValue;
@@ -40591,12 +40596,13 @@ var LoginController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 
 		$scope.errorMessage = '';
 		$scope.errorType    = 'validation';
-		
+
 		if (!formController.$valid || !angular.isString(emailAddress) || !angular.isString(password) ) {
 			$scope.errorMessage = 'Enter valid data please';
 		} else {
 			//socket.emit('requestLogin', { 'email' : emailAddress.toString(), 'password' : password.toString() });
-			alert('verstuurd');
+			$rootScope.signedIn = true;
+			$location.path('/home');
 		}
 
 	};
@@ -40805,8 +40811,13 @@ var RaidController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 
 angular.module('Destiny.app').controller('RaidController',RaidController);
 
-var RegisterController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+var RegisterController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
 	$rootScope.loading = false;
+
+	if ($rootScope.signedIn) {
+		$location.path('/home');
+		return;
+	}
 
 	$scope.selectPlatform = function (platform) {
 		$scope.selectedPlatform = platform;
@@ -40823,7 +40834,8 @@ var RegisterController = ['$rootScope', '$scope', function ($rootScope, $scope) 
 			$scope.errorMessage = 'Enter valid data please';
 		} else {
 			//socket.emit('requestLogin', { 'email' : emailAddress.toString(), 'password' : password.toString() });
-			alert('verstuurd');
+			$rootScope.signedIn = true;
+			$location.path('/home');
 		}
 
 	};
