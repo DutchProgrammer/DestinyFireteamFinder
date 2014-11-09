@@ -1,32 +1,62 @@
 var gulp      = require('gulp');
-//var del     = require('del');
 var concat    = require('gulp-concat');
 var header    = require('gulp-header');
-var fs        = require('fs');
-var util      = require('util');
 var rename    = require('gulp-rename');
 var shell     = require('gulp-shell');
 var connect   = require('gulp-connect');
 var uglifyJS  = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
-var glob      = require("glob");
-var options   = { 'sync': true };
 
-var jsFiles   = [];
-var cssFiles  = [];
-var get
+var fs        = require('fs');
+var util      = require('util');
+var fs        = require('fs');
+var util      = require('util');
+var glob      = require("glob");
+var extend    = require('node.extend');
+
+var options    = { 'sync': true };
+
+var jsFiles    = [];
+var cssFiles   = [];
+var routeFiles = {};
+
 
 var getAllFiles = function (extension) {
 
-  // options is optional
   glob('./modules/*/*.'+extension, options, function (er, files) {
 
     if (er === null) {
       if (extension == 'js') {
-        jsFiles = files;
+        files.forEach(function (file, key) {
+          if (file.indexOf('app.js') !== -1 ) {
+            jsFiles.unshift(file);
+          } else {
+            jsFiles.push(file);
+          }
+        });
+
       } else {
         cssFiles = files;
       }
+    }
+  });
+};
+
+var getAllRoutes = function () {
+
+  glob('./modules/*/route.js', options, function (er, files) {
+
+    if (er === null) {
+      
+      files.forEach(function (file, key) {
+        var newRoute = JSON.parse(fs.readFileSync(file));
+
+        var templatePath = file.replace('route.js', '').replace('./', '');
+
+        newRoute[0].templateUrl = templatePath+newRoute[0].templateUrl;
+
+        routeFiles = extend(routeFiles, newRoute);
+      });
     }
     console.info(er, 'er');
     console.info(files, 'files');
@@ -36,6 +66,9 @@ var getAllFiles = function (extension) {
 
 getAllFiles('js');
 getAllFiles('css');
+getAllRoutes();
+
+console.info(routeFiles, 'routeFiles');
 
 var config = {
    vendor: {
@@ -43,10 +76,12 @@ var config = {
          './bower_components/angular/angular.js',
          './bower_components/angular-route/angular-route.js',
          './bower_components/angular-touch/angular-touch.js',
+         './bower_components/angular-animate/angular-animate.js',
          './bower_components/mobile-angular-ui/dist/js/mobile-angular-ui.js',
          './bower_components/jquery/dist/jquery.js',
       ],
       css: [
+         './font-awesome/css/font-awesome.css',
          './bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css',
          './bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css',
          './bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css',
@@ -75,10 +110,10 @@ console.info(
        )
       .pipe(concat('scripts.js'))
       .pipe(header('/** Created at ' + (new Date) + ' **/'))
-      //.pipe(header('var mainModule = ' + JSON.stringify(mainModule) + ';' + "\n"))
+      .pipe(header('var routeFiles = ' + JSON.stringify(routeFiles) + ';' + "\n"))
       .pipe(gulp.dest('js'))
       .pipe(concat('scripts.min.js'))
-      //.pipe(uglifyJS())
+      .pipe(uglifyJS())
       .pipe(gulp.dest('js'))
       ;
 
@@ -108,7 +143,7 @@ gulp.task('build-bower',
 );
 
 gulp.task('build-main', ['build-main-css','build-main-js'],
-   shell.task('cp modules/main/main.html index.html')
+  shell.task('cp modules/main/main.html index.html')
 );
 
 
@@ -116,12 +151,11 @@ gulp.task('build-phonegap', ['build-main'], shell.task([
    'mkdir -p ../www/',
    'cp index.html ../www/',
    'rsync -av config.xml ../www/',
-   //'rsync -av fonts ../www/',
+   'rsync -av fonts ../www/',
    'rsync -av css ../www/',
    'rsync -av js ../www/',
    //'rsync -av sound ../www/',
    'rsync -av  modules ../www/',
-   //'cp -R config.xml fonts css js res sound modules ../www/',
-   'cd ../ && phonegap remote build ios'
+   'cd ../ && phonegap remote build android'
 ]));
 

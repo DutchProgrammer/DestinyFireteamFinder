@@ -1,0 +1,159 @@
+html, body { 
+   font-family: 'Source Sans Pro', sans-serif;
+   font-size:14pt;
+   background-color:#2e4b6b;
+   font-weight: 500;
+  -webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
+  -webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
+  -webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
+}
+
+.navbar-app {
+    background: #273858;
+    border-color: #273858;
+}
+
+.navbar-app .btn,
+.navbar-brand {
+    color: white;
+}
+.accent,
+.sidebar .list-group-item {
+    background: #008fde;
+}
+.accent,
+.sidebar .list-group-item:hover {
+    background: #008fde;
+}
+.accent *,
+.sidebar *,
+.sidebar .list-group-item {
+    color: white;
+}
+.app {
+    background: #e9e9e9;
+}
+/** To be used on pages with `padding` like the balances and contact-info page **/
+.bordered {
+    border: 10px solid #e9e9e9;
+}
+
+/** mainSidebar icons must be fixed width **/
+#mainSidebar i.fa {
+    width: 20px;
+    text-align: center;
+}
+.navbar-absolute-top,
+.navbar-absolute-top .fa,
+.bigger {
+    font-size: 220%;
+}
+
+.sidebar .list-group-item {
+    border-bottom: 1px solid rgba(255,255,255,0.3) !important;
+}
+
+.sidebar-left, .sidebar-right {
+  background:#1c5eac;
+}
+/** Add some pixels to the navbar top **/
+.navbar-app.navbar-absolute-top {
+    padding-top: 15px;
+    min-height: 70px;
+}
+.has-navbar-top .app-body {
+    padding-top: 70px;
+}
+
+#mainSidebar .list-group-item, #settingsSidebar .list-group-item {
+  background: none repeat scroll 0 0 #1c5eac;
+}
+/**
+ * angular-pull-to-refresh
+ * @version v0.3.0 - 2013-11-14
+ * @link https://github.com/mgcrea/angular-pull-to-refresh
+ * @author Olivier Louvignes <olivier@mg-crea.com>
+ * @license MIT License, http://www.opensource.org/licenses/MIT
+ */
+.pull-to-refresh{position:relative;display:block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:-40px auto 0;padding:0;width:100%;height:40px;border-bottom:1px dashed #ccc;text-align:center;line-height:40px;-webkit-transition-duration:400ms;-moz-transition-duration:400ms;transition-duration:400ms;-webkit-transition-property:margin;-moz-transition-property:margin;transition-property:margin;-webkit-transform:translateZ(0px);-moz-transform:translateZ(0px);transform:translateZ(0px)}
+
+
+
+.navbar .loading {
+    color: red !important;
+    -webkit-transition: all 2s ease-in-out;
+    -moz-transition: all 2s ease-in-out;
+    -ms-transition: all 2s ease-in-out;
+    -o-transition: all 2s ease-in-out;
+    transition: all 2s ease-in-out;
+}
+
+
+.empty-state .fa,
+.loading-state .fa {
+    font-size: 500%;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.empty-state,
+.loading-state {
+    min-height :100%;
+    padding: 25%;
+    text-align: center;
+    color: #999;
+}
+
+
+
+.appAlert {
+   position:fixed;
+   background-color;#fff;
+   -webkit-border-top-left-radius: 5px;
+   -webkit-border-top-right-radius: 5px;
+   -moz-border-radius-topleft: 5px;
+   -moz-border-radius-topright: 5px;
+   border-top-left-radius: 5px;
+   border-top-right-radius: 5px;
+   z-index:999;
+   border:rgb(0, 0, 0);
+   background-color:#fff;
+   text-align:center;
+   border:1px solid rgb(214, 214, 214);
+   left:20px;
+   right:20px;
+   bottom:20px;
+   font-size: 14pt;
+}
+
+.appAlert p {
+   color: rgb(156, 156, 156);
+   padding:5px;
+}
+.appAlert .button {
+   height: 40px;
+   border-top: 1px solid #d6d6d6;
+   display:block;
+   line-height: 40px;
+}
+.appAlert .button {
+   color: rgb(60, 120, 167);
+}
+.appAlert .button:hover {
+   cursor:pointer;
+   color: rgb(193, 102, 115);
+}
+.appAlert input {
+   border: 1px solid rgba(0, 0, 0, 0.4);
+   color: rgba(0, 0, 0, 0.4);
+   height: 40px;
+   padding: 0 0 0 10px;
+   width: 100%;
+   box-sizing: border-box; /* Opera/IE 8+ */
+   -webkit-box-sizing: border-box; /* Safari, Chrome et al */
+   -moz-box-sizing: border-box; /* Firefox */ 
+}
+
+.appAlert input:focus {
+   color: rgba(0, 0, 0, 0.8);
+}

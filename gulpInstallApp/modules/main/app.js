@@ -6,21 +6,16 @@ var app = angular.module('Destiny.app', [
 ]);
 
 
-if (mainModule) {
-  app.config(['$routeProvider', function ($routeProvider) {
-    angular.forEach(mainModule.routes, function(value, key) {
-      value.templateUrl = 'modules/' + value.templateUrl;
+app.config(['$routeProvider', function ($routeProvider) {
 
-      $routeProvider.when(key.substr(1), value);
-    });
+  console.info(routeFiles, 'routeFiles');
+  angular.forEach(routeFiles, function(route, key) {
+    $routeProvider.when(route.url, route.templateUrl);
+  });
 
-    $routeProvider.otherwise({redirectTo: '/home'});
+  $routeProvider.otherwise({redirectTo: '/home'});
 
-    // use the HTML5 History API (FOR google friendly URL)
-    //http://scotch.io/quick-tips/js/angular/pretty-urls-in-angularjs-removing-the-hashtag
-    //$locationProvider.html5Mode(true);
-  }]);
-} else {
-  ///Something whent wrong
-  ///window.error or throw exeption
-}
+  // use the HTML5 History API (FOR google friendly URL)
+  //http://scotch.io/quick-tips/js/angular/pretty-urls-in-angularjs-removing-the-hashtag
+  //$locationProvider.html5Mode(true);
+}]);
