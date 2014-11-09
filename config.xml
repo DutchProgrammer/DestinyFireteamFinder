@@ -2,7 +2,7 @@
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>DestinyRaidFinder</name>
     <description>
-        With this app you can easily find people to join or to start a fresh raid with or without your own clan.
+    	With this app you can easily find people to join or to start a fresh raid with or without your own clan.
     </description>
     <author email="dutchprogrammer@gmail.com" href="http://dutchprogrammer.nl">
         Danny van der Knaap

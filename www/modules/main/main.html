@@ -11,7 +11,7 @@
 	<script> 
 
 		window.onerror = function(msg, url, line, col, error) {
-		alert('msg: '+msg+' line: '+line);
+			alert('msg: '+msg+' line: '+line);
 		};
 	</script>
 
@@ -38,9 +38,10 @@
 				<div class="scrollable app-body">
 						<div class="scrollable-content">
 								<div class="list-group" toggle="off" bubble target="mainSidebar">
-										<a ng-repeat="nav in leftNavigation" class="list-group-item" ng-href="{{nav.url}}">
-												<i class="fa fa-{{nav.icon || 'angle-right'}}"></i>
-												{{nav.title}}
+
+										<a ng-repeat="(itemKey, item) in navigationFiles" class="list-group-item" ng-href="#{{item.url}}">
+												<i class="fa fa-{{item.icon || 'angle-right'}}"></i>
+												{{item.title}}
 										</a>
 								</div>
 						</div>
@@ -56,10 +57,9 @@
 				<div class="scrollable app-body">
 						<div class="scrollable-content">
 								<div class="list-group" toggle="off" bubble  target="settingsSidebar">
-										<a ng-repeat="nav in rightNavigation" class="list-group-item" ng-href="{{nav.url}}">
-												<!-- No icon needed in right navigation -->
-												<!-- <i class="fa fa-{{nav.icon || 'angle-right'}}"></i> -->
-												{{nav.title}}
+										<a ng-repeat="(itemKey, item) in settingFiles" class="list-group-item" ng-href="#{{item.url}}">
+												<i class="fa fa-{{item.icon || 'angle-right'}}"></i>
+												{{item.title}}
 										</a>
 
 								</div>

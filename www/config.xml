@@ -57,6 +57,8 @@
 
 		<!-- Third party plugins -->
     <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="org.apache.cordova.statusbar" />
+    <gap:plugin name="at.modalogb2.cordova.plugin.cache" />
 
 
 		<!-- Define app icon for each platform. -->
