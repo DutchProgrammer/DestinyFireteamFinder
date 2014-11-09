@@ -28,6 +28,10 @@ var getAllFiles = function (extension) {
     if (er === null) {
       if (extension == 'js') {
         files.forEach(function (file, key) {
+          if (file.indexOf('/default/') !== -1 ) {
+            return;
+          }
+
           if (file.indexOf('app.js') !== -1 ) {
             jsFiles.unshift(file);
           } else {
@@ -60,7 +64,7 @@ var getAllRoutes = function () {
         saveRoute[newRoute[0].url] = {"controller" : newRoute[0].controller, "templateUrl" : newRoute[0].templateUrl};
 
         console.info(saveRoute, 'saveRoute');
-        
+
         routeFiles = extend(routeFiles, saveRoute);
       });
     }
