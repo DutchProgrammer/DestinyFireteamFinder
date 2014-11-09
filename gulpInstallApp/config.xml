@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>DestinyRaidFinder</name>
+<widget id="destiny.fireteam.finder.nl" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Destiny Fireteam Finder</name>
     <description>
         With this app you can easily find people to join or to start a fresh raid with or without your own clan.
     </description>
@@ -57,6 +57,8 @@
 
 		<!-- Third party plugins -->
     <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="org.apache.cordova.statusbar" />
+    <gap:plugin name="at.modalogb2.cordova.plugin.cache" />
 
 
 		<!-- Define app icon for each platform. -->
