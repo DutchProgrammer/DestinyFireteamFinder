@@ -23,76 +23,83 @@
 </head>
 
 <body ng-app="Destiny.app" ng-controller="MainController">
-	<div class="sidebar sidebar-left" id="mainSidebar" toggleable parent-active-class="sidebar-left-in" ng-swipe-left="toggle('mainSidebar', 'off')" ng-swipe-right="toggle('mainSidebar', 'on')">
-			<div class="navbar navbar-app navbar-absolute-top"  toggle="off" bubble target="mainSidebar">
-					<div class="navbar-brand navbar-brand-center">
-							{{auth.name}}
-					</div>
-			</div>
-			<div class="scrollable app-body">
-					<div class="scrollable-content">
-							<div class="list-group" toggle="off" bubble target="mainSidebar">
-									<a ng-repeat="nav in leftNavigation" class="list-group-item" ng-href="{{nav.url}}">
-											<i class="fa fa-{{nav.icon || 'angle-right'}}"></i>
-											{{nav.title}}
-									</a>
-							</div>
-					</div>
-			</div>
+
+	<div ng-if="!signedIn">
+		Signin pls
 	</div>
 
-	<div class="sidebar sidebar-right" id="settingsSidebar" toggleable parent-active-class="sidebar-right-in" ng-swipe-left="toggle('settingsSidebar', 'off')" ng-swipe-right="toggle('settingsSidebar', 'on')">
-			<div class="navbar navbar-app navbar-absolute-top" toggle="off" bubble  target="settingsSidebar">
-					<div class="navbar-brand navbar-brand-center">
-							Instellingen
-					</div>
-			</div>
-			<div class="scrollable app-body">
-					<div class="scrollable-content">
-							<div class="list-group" toggle="off" bubble  target="settingsSidebar">
-									<a ng-repeat="nav in rightNavigation" class="list-group-item" ng-href="{{nav.url}}">
-											<!-- No icon needed in right navigation -->
-											<!-- <i class="fa fa-{{nav.icon || 'angle-right'}}"></i> -->
-											{{nav.title}}
-									</a>
+	<div ng-if="signedIn">
+		<div class="sidebar sidebar-left" id="mainSidebar" toggleable parent-active-class="sidebar-left-in" ng-swipe-left="toggle('mainSidebar', 'off')" ng-swipe-right="toggle('mainSidebar', 'on')">
+				<div class="navbar navbar-app navbar-absolute-top"  toggle="off" bubble target="mainSidebar">
+						<div class="navbar-brand navbar-brand-center">
+								{{auth.name}}
+						</div>
+				</div>
+				<div class="scrollable app-body">
+						<div class="scrollable-content">
+								<div class="list-group" toggle="off" bubble target="mainSidebar">
+										<a ng-repeat="nav in leftNavigation" class="list-group-item" ng-href="{{nav.url}}">
+												<i class="fa fa-{{nav.icon || 'angle-right'}}"></i>
+												{{nav.title}}
+										</a>
+								</div>
+						</div>
+				</div>
+		</div>
 
-							</div>
-					</div>
-			</div>
-	</div>
+		<div class="sidebar sidebar-right" id="settingsSidebar" toggleable parent-active-class="sidebar-right-in" ng-swipe-left="toggle('settingsSidebar', 'off')" ng-swipe-right="toggle('settingsSidebar', 'on')">
+				<div class="navbar navbar-app navbar-absolute-top" toggle="off" bubble  target="settingsSidebar">
+						<div class="navbar-brand navbar-brand-center">
+								Settings
+						</div>
+				</div>
+				<div class="scrollable app-body">
+						<div class="scrollable-content">
+								<div class="list-group" toggle="off" bubble  target="settingsSidebar">
+										<a ng-repeat="nav in rightNavigation" class="list-group-item" ng-href="{{nav.url}}">
+												<!-- No icon needed in right navigation -->
+												<!-- <i class="fa fa-{{nav.icon || 'angle-right'}}"></i> -->
+												{{nav.title}}
+										</a>
 
-	<div class="app">
-			<div class="navbar navbar-app navbar-absolute-top">
+								</div>
+						</div>
+				</div>
+		</div>
 
-					<div class="navbar-brand navbar-brand-center" yield-to="title">
-							<b>Destiny Raid Finder</b>
-					</div>
+		<div class="app">
+				<div class="navbar navbar-app navbar-absolute-top">
 
-					<div class="btn-group pull-left">
-							<div ng-hide="backButton" class="btn sidebar-toggle" ng-click="toggle('mainSidebar')">
-									<i class="fa fa-bars"></i> &nbsp;
-							</div>
-							<a ng-show="backButton" class="btn" ng-click="goBack()">
-									<i class="fa fa-angle-left"></i> Terug
-							</a>
-					</div>
+						<div class="navbar-brand navbar-brand-center" yield-to="title">
+								<b>Destiny Raid Finder</b>
+						</div>
 
-					<div class="btn-group pull-right">
-							<div class="btn" ng-click="toggle('settingsSidebar')">
-									<i class="fa fa-cog"></i> &nbsp;
-							</div>
-					</div>
-			</div>
+						<div class="btn-group pull-left">
+								<div ng-hide="backButton" class="btn sidebar-toggle" ng-click="toggle('mainSidebar')">
+										<i class="fa fa-bars"></i> &nbsp;
+								</div>
+								<a ng-show="backButton" class="btn" ng-click="goBack()">
+										<i class="fa fa-angle-left"></i> Terug
+								</a>
+						</div>
 
-			<div class="app-body">
-					<div class="loading-state" ng-if="loading">
-							<i class="fa fa-spin fa-cog"></i>
-							Laden..
-					</div>
-					<dyflexis-loader></dyflexis-loader>
-					<ng-view class="app-content"></ng-view>
-			</div>
+						<div class="btn-group pull-right">
+								<div class="btn" ng-click="toggle('settingsSidebar')">
+										<i class="fa fa-cog"></i> &nbsp;
+								</div>
+						</div>
+				</div>
 
+				<div class="app-body">
+						<div class="loading-state" ng-if="loading">
+								<i class="fa fa-spin fa-cog"></i>
+								Laden..
+						</div>
+						<dyflexis-loader></dyflexis-loader>
+						<ng-view class="app-content"></ng-view>
+				</div>
+
+		</div>
 	</div>
 
 </body>

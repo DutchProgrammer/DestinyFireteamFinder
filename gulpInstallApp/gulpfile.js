@@ -55,7 +55,13 @@ var getAllRoutes = function () {
 
         newRoute[0].templateUrl = templatePath+newRoute[0].templateUrl;
 
-        routeFiles = extend(routeFiles, newRoute);
+        var saveRoute = {};
+
+        saveRoute[newRoute[0].url] = {"controller" : newRoute[0].controller, "templateUrl" : newRoute[0].templateUrl};
+
+        console.info(saveRoute, 'saveRoute');
+        
+        routeFiles = extend(routeFiles, saveRoute);
       });
     }
     console.info(er, 'er');

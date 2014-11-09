@@ -1,5 +1,5 @@
-var routeFiles = {"0":{"url":"/home","templateUrl":"modules/home/home.html"}};
-/** Created at Sun Nov 09 2014 02:05:29 GMT+0100 (CET) **//**
+var routeFiles = {"/home":{"controller":"HomeController","templateUrl":"modules/home/home.html"}};
+/** Created at Sun Nov 09 2014 02:52:35 GMT+0100 (CET) **//**
  * @license AngularJS v1.3.2
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
@@ -40551,8 +40551,8 @@ var app = angular.module('Destiny.app', [
 app.config(['$routeProvider', function ($routeProvider) {
 
   console.info(routeFiles, 'routeFiles');
-  angular.forEach(routeFiles, function(route, key) {
-    $routeProvider.when(route.url, route.templateUrl);
+  angular.forEach(routeFiles, function(route, routeUrl) {
+    $routeProvider.when(routeUrl, route);
   });
 
   $routeProvider.otherwise({redirectTo: '/home'});
@@ -40563,16 +40563,22 @@ app.config(['$routeProvider', function ($routeProvider) {
 }]);
 
 var HomeController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
   console.info('ja');
 }];
 
 angular.module('Destiny.app').controller('HomeController',HomeController);
 [{
 	"url" : "/home",
+	"controller" : "HomeController",
 	"templateUrl" : "home.html"
 }]
 
-var MainController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+var MainController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
+
+	console.info('MainController');
+	$rootScope.signedIn = true;
+
 	//$rootScope.loading = true;
 	// Set the loading variable
 	// Set backButton to false
@@ -40589,11 +40595,7 @@ var MainController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 
 	  //Replace old pagePrefix
 	  $('ng-view').addClass(function (index, currentClass) {
-
-	  	alert(currentClass, 'currentClass');
 	    var regx = new RegExp('\\b' + pagePrefix + '.*?\\b', 'g');
-
-	  	alert(currentClass.replace(regx, ''), 'currentClass regx');
 	    return currentClass.replace(regx, '');
 	  });
 
@@ -40603,7 +40605,79 @@ var MainController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 	  $('ng-view').addClass(pageClass);
 	};
 
+	function playSound() {
 
+	  var snd = new Media('http://app.planning.nu/src/sound/beep.mp3', 
+	    function (e) { alert('started');  }, 
+	    function (error) {
+	      alert('code: '    + error.code    + '\n' +
+	            'message: ' + error.message + '\n');
+	    }
+	  );
+
+	  snd.play({ playAudioWhenScreenIsLocked : true });
+	  snd.setVolume('1.0');
+
+	  return snd;
+	};
+
+
+	function notify() {
+
+	  if ( typeof console == 'object') {
+	      console.log.apply(console, arguments);
+	  } else {
+	      window.alert.apply(window, arguments);
+	  }
+	};
+
+	function appAlert( content, callback, buttons, input) {
+	  var content = (content === undefined || content === null ? '' : content);
+	  var input   = (input === undefined   || input === null ? false : input);
+	  var appDiv  = $('<div class="appAlert"></div>').appendTo('body');
+	  var buttons = (buttons === undefined || buttons === null ? { 'ok' : 'Ok' }         : buttons);
+	   
+	  if (content !== '') {
+	    $('<p>'+content+'</p>').appendTo(appDiv);
+	  }   
+
+	  if (input) {
+	    $('<p>'+input+'</p>').appendTo(appDiv);
+	  }
+	  
+	  $.each(buttons, function (k,v) {
+	    $('<div class="button" button="'+(typeof k === 'string'  ? k : v)+'">'+v+'</div>')
+	    .appendTo(appDiv)
+	    .click(function () {
+	      if (callback !== undefined && typeof callback === "function") {
+	          
+	        var inputVal = (input ? $(appDiv).find('input').val() : false);
+	          
+	        callback.apply(callback, [ $(this).attr('button'), appDiv, inputVal]);
+	      }
+	       
+	      appDiv.remove();
+	    });
+	    
+	  });
+	   
+	  return true;
+	};
+
+	function appConfirm(content, callback, buttons) {
+	  var content = (content === undefined || content === null ? '' : content);
+	  var buttons = (buttons === undefined || buttons === null ? { 'ok' : 'Ok', 'cancel' : 'Cancel' } : buttons);
+	   
+	   return  appAlert( content, callback, buttons);
+	};
+
+	function appPrompt(content, callback, buttons, input) {
+	  var content = (content === undefined || content === null ? '' : content);
+	  var buttons = (buttons === undefined || buttons === null ? { 'ok' : 'Ok', 'cancel' : 'Cancel' } : buttons);
+	  var input   = (input === undefined   || input === null ? '<input type="text" name="confirm" inputField="confirm" />' : input);
+
+	   return appAlert( content, callback, buttons, input);
+	};
 }];
 
 angular.module('Destiny.app').controller('MainController',MainController);

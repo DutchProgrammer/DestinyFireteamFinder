@@ -9,8 +9,8 @@ var app = angular.module('Destiny.app', [
 app.config(['$routeProvider', function ($routeProvider) {
 
   console.info(routeFiles, 'routeFiles');
-  angular.forEach(routeFiles, function(route, key) {
-    $routeProvider.when(route.url, route.templateUrl);
+  angular.forEach(routeFiles, function(route, routeUrl) {
+    $routeProvider.when(routeUrl, route);
   });
 
   $routeProvider.otherwise({redirectTo: '/home'});
