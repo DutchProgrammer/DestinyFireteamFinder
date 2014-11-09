@@ -1,8 +1,11 @@
 
 var MainController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
 
-	console.info('MainController');
 	$rootScope.signedIn = true;
+
+	$rootScope.auth = {
+		name: 'Danny van der Knaap'
+	};
 
 	//$rootScope.loading = true;
 	// Set the loading variable
@@ -14,6 +17,13 @@ var MainController = ['$rootScope', '$scope', '$location', function ($rootScope,
 	$rootScope.$on("$viewContentLoaded", function(event, next, current) {
 		$scope.changePageClass();
 	});
+
+	//Set navigation menu
+	$scope.navigationFiles = navigationFiles || [];
+	
+	// Set settings menu
+	$scope.settingFiles = settingFiles || [];
+
 	//Add current page class to ng-view
 	$scope.changePageClass = function () {
 	  var pagePrefix = 'page-';
@@ -149,7 +159,7 @@ var MainController = ['$rootScope', '$scope', '$location', function ($rootScope,
 		$(document).bind('batterylow', function () {
 			notify('device batterylow');
 		});
-	});
+	};
 
 }];
 

@@ -4,4 +4,4 @@ var LoginController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 
 }];
 
-angular.module('Destiny.app').controller('LoginController',LoginController);
+angular.module('Destiny.app').controller('LoginController', LoginController);

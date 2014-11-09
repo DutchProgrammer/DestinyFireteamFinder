@@ -7,19 +7,23 @@ var connect   = require('gulp-connect');
 var uglifyJS  = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 
-var fs        = require('fs');
-var util      = require('util');
-var fs        = require('fs');
-var util      = require('util');
-var glob      = require("glob");
-var extend    = require('node.extend');
+var fs          = require('fs');
+var util        = require('util');
+var fs          = require('fs');
+var util        = require('util');
+var glob        = require("glob");
+var objectMerge = require('object-merge');
+var extend      = require('node.extend');
 
 var options    = { 'sync': true };
 
-var jsFiles    = [];
-var cssFiles   = [];
-var routeFiles = {};
-
+var jsFiles         = [];
+var cssFiles        = [];
+var routeFiles      = {};
+var navigationFiles = {};
+var settingFiles    = {};
+var navigationOrder = JSON.parse(fs.readFileSync('./modules/main/navigationOrder.js'));
+var settingsOrder   = JSON.parse(fs.readFileSync('./modules/main/settingsOrder.js'));
 
 var getAllFiles = function (extension) {
 
@@ -28,10 +32,25 @@ var getAllFiles = function (extension) {
     if (er === null) {
       if (extension == 'js') {
         files.forEach(function (file, key) {
+
+          console.info(file, 'file');
           if (file.indexOf('/default/') !== -1 ) {
             return;
           }
+          if (file.indexOf('route.js') !== -1 ) {
+            return;
+          }
+          if (file.indexOf('navigation.js') !== -1 ) {
+            return;
+          }
+          if (file.indexOf('setting.js') !== -1 ) {
+            return;
+          }
+          if (file.indexOf('main/navigationOrder.js') !== -1 || file.indexOf('main/settingsOrder.js') !== -1 ) {
+            return;
+          }
 
+        console.info(file, 'js file');
           if (file.indexOf('app.js') !== -1 ) {
             jsFiles.unshift(file);
           } else {
@@ -40,12 +59,24 @@ var getAllFiles = function (extension) {
         });
 
       } else {
-        cssFiles = files;
+        files.forEach(function (file, key) {
+          if (file.indexOf('/default/') !== -1 ) {
+            return;
+          }
+        console.info(file, 'css file');
+
+          if (file.indexOf('/default-theme/') !== -1 ) {
+            cssFiles.unshift(file);
+          } else {
+            cssFiles.push(file);
+          }
+        });
       }
     }
   });
 };
 
+//Merge all route files to one array
 var getAllRoutes = function () {
 
   glob('./modules/*/route.js', options, function (er, files) {
@@ -53,6 +84,12 @@ var getAllRoutes = function () {
     if (er === null) {
       
       files.forEach(function (file, key) {
+
+        //Skip default module
+        if (file.indexOf('/default/') !== -1 ) {
+          return;
+        }
+
         var newRoute = JSON.parse(fs.readFileSync(file));
 
         var templatePath = file.replace('route.js', '').replace('./', '');
@@ -68,15 +105,89 @@ var getAllRoutes = function () {
         routeFiles = extend(routeFiles, saveRoute);
       });
     }
-    console.info(er, 'er');
-    console.info(files, 'files');
   });
 
+};
+
+//Merge all navigation files to one array
+var getAllNavigationItems = function () {
+
+  glob('./modules/*/navigation.js', options, function (er, files) {
+
+    if (er === null) {
+      
+      files.forEach(function (file, key) {
+        //Skip default module
+        if (file.indexOf('/default/') !== -1 ) {
+          return;
+        }
+
+        var newNavigation = JSON.parse(fs.readFileSync(file));
+
+        navigationFiles = extend(navigationFiles, newNavigation);
+      });
+    }
+  });
+
+};
+
+//Merge all setting files to one array
+var getAllSettingItems = function () {
+
+  glob('./modules/*/setting.js', options, function (er, files) {
+
+    if (er === null) {
+      
+      files.forEach(function (file, key) {
+        //Skip default module
+        if (file.indexOf('/default/') !== -1 ) {
+          return;
+        }
+
+        var newSetting = JSON.parse(fs.readFileSync(file));
+
+        settingFiles = extend(settingFiles, newSetting);
+      });
+    }
+  });
+
+};
+
+var setNavigationOrder = function () {
+  var newMenuOrder = [];
+
+
+  navigationOrder.forEach(function(nav, key) {
+
+    if (navigationFiles[nav] !== undefined) {
+      newMenuOrder.push(navigationFiles[nav]);
+    }
+  });
+
+  navigationFiles = newMenuOrder;
+};
+
+var setSettingOrder = function () {
+  var newMenuOrder = [];
+
+  settingsOrder.forEach(function(nav, key) {
+
+    if (settingFiles[nav] !== undefined) {
+      newMenuOrder.push(settingFiles[nav]);
+    }
+  });
+
+  settingFiles = newMenuOrder;
 };
 
 getAllFiles('js');
 getAllFiles('css');
 getAllRoutes();
+getAllNavigationItems();
+getAllSettingItems();
+
+setNavigationOrder();
+setSettingOrder();
 
 console.info(routeFiles, 'routeFiles');
 
@@ -121,6 +232,8 @@ console.info(
       .pipe(concat('scripts.js'))
       .pipe(header('/** Created at ' + (new Date) + ' **/'))
       .pipe(header('var routeFiles = ' + JSON.stringify(routeFiles) + ';' + "\n"))
+      .pipe(header('var navigationFiles = ' + JSON.stringify(navigationFiles) + ';' + "\n"))
+      .pipe(header('var settingFiles = ' + JSON.stringify(settingFiles) + ';' + "\n"))
       .pipe(gulp.dest('js'))
       .pipe(concat('scripts.min.js'))
       .pipe(uglifyJS())

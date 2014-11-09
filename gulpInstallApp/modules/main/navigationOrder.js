@@ -1,0 +1,9 @@
+[
+	"home",
+	"daily",
+	"weekly",
+	"nightfall",
+	"raid",
+	"strike",
+	"missions"
+]

@@ -4,4 +4,4 @@ var RegisterController = ['$rootScope', '$scope', function ($rootScope, $scope) 
 
 }];
 
-angular.module('Destiny.app').controller('RegisterController',RegisterController);
+angular.module('Destiny.app').controller('RegisterController', RegisterController);

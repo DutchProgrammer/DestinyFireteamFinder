@@ -1,5 +1,7 @@
-var routeFiles = {"/home":{"controller":"HomeController","templateUrl":"modules/home/home.html"}};
-/** Created at Sun Nov 09 2014 02:54:51 GMT+0100 (CET) **//**
+var settingFiles = [{"title":"Notifications","url":"/notifications","icon":"bell"}];
+var navigationFiles = [{"title":"Home","url":"/home","icon":"home"},{"title":"Daily","url":"/daily","icon":"gamepad"},{"title":"Weekly","url":"/weekly","icon":"gamepad"},{"title":"Nightfall","url":"/nightfall","icon":"gamepad"},{"title":"Raid","url":"/raid","icon":"gamepad"},{"title":"Strike","url":"/strike","icon":"gamepad"},{"title":"Missions","url":"/missions","icon":"gamepad"}];
+var routeFiles = {"/daily":{"controller":"DailyController","templateUrl":"modules/daily/daily.html"},"/home":{"controller":"HomeController","templateUrl":"modules/home/home.html"},"/login":{"controller":"LoginController","templateUrl":"modules/login/login.html"},"/missions":{"controller":"MissionsController","templateUrl":"modules/missions/missions.html"},"/nightfall":{"controller":"NightfallController","templateUrl":"modules/nightfall/nightfall.html"},"/notifications":{"controller":"NotificationsController","templateUrl":"modules/notifications/notifications.html"},"/profile":{"controller":"ProfileController","templateUrl":"modules/profile/profile.html"},"/raid":{"controller":"RaidController","templateUrl":"modules/raid/raid.html"},"/register":{"controller":"RegisterController","templateUrl":"modules/register/register.html"},"/strike":{"controller":"StrikeController","templateUrl":"modules/strike/strike.html"},"/weekly":{"controller":"WeeklyController","templateUrl":"modules/weekly/weekly.html"}};
+/** Created at Sun Nov 09 2014 14:05:56 GMT+0100 (CET) **//**
  * @license AngularJS v1.3.2
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
@@ -40550,7 +40552,6 @@ var app = angular.module('Destiny.app', [
 
 app.config(['$routeProvider', function ($routeProvider) {
 
-  console.info(routeFiles, 'routeFiles');
   angular.forEach(routeFiles, function(route, routeUrl) {
     $routeProvider.when(routeUrl, route);
   });
@@ -40562,22 +40563,34 @@ app.config(['$routeProvider', function ($routeProvider) {
   //$locationProvider.html5Mode(true);
 }]);
 
+var DailyController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('DailyController',DailyController);
+
 var HomeController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 	$rootScope.loading = false;
-  console.info('ja');
+	
 }];
 
 angular.module('Destiny.app').controller('HomeController',HomeController);
-[{
-	"url" : "/home",
-	"controller" : "HomeController",
-	"templateUrl" : "home.html"
-}]
+
+var LoginController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('LoginController', LoginController);
 
 var MainController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
 
-	console.info('MainController');
 	$rootScope.signedIn = true;
+
+	$rootScope.auth = {
+		name: 'Danny van der Knaap'
+	};
 
 	//$rootScope.loading = true;
 	// Set the loading variable
@@ -40589,6 +40602,13 @@ var MainController = ['$rootScope', '$scope', '$location', function ($rootScope,
 	$rootScope.$on("$viewContentLoaded", function(event, next, current) {
 		$scope.changePageClass();
 	});
+
+	//Set navigation menu
+	$scope.navigationFiles = navigationFiles || [];
+	
+	// Set settings menu
+	$scope.settingFiles = settingFiles || [];
+
 	//Add current page class to ng-view
 	$scope.changePageClass = function () {
 	  var pagePrefix = 'page-';
@@ -40678,6 +40698,110 @@ var MainController = ['$rootScope', '$scope', '$location', function ($rootScope,
 
 	   return appAlert( content, callback, buttons, input);
 	};
+
+
+	document.addEventListener('deviceready', onDeviceReady);
+	function onDeviceReady() {
+		/*
+		Clear cache is needed for android because it caches the app html.
+		Side Effect if you clear cache it clear localstorage as well
+		*/
+		window.cache.clear( function(status) {
+			notify('Message: ' + status);
+		}, function(status) {
+			notify('Error: ' + status);
+		} );
+
+		// Override default HTML alert,confirm, prompt with native dialog
+		window.nativeAlert = window.alert;
+		window.nativeConfirm = window.confirm;
+		window.nativePrompt = window.prompt;
+		window.alert = window.appAlert;
+		window.confirm = window.appConfirm;
+		window.prompt = window.appPrompt;
+
+		//All binds http://docs.phonegap.com/en/2.5.0/cordova_events_events.md.html#menubutton
+		//When device is going offline
+		$(document).bind('offline', function () {
+			notify('device offline');
+			//app.checkConnection();
+		});
+		//When device is going online
+		$(document).bind('online', function () {
+			notify('device online');
+			//app.checkConnection();
+		});
+		//When device is going resume
+		$(document).bind('resume', function () {
+			notify('device resume');
+			//app.checkConnection();
+		});
+		//When device is going critical low on battery
+		$(document).bind('batterycritical', function () {
+			notify('device batterycritical');
+		});
+		//When device is going low on battery
+		$(document).bind('batterylow', function () {
+			notify('device batterylow');
+		});
+	};
+
 }];
 
 angular.module('Destiny.app').controller('MainController',MainController);
+
+var MissionsController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('MissionsController',MissionsController);
+
+var NightfallController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('NightfallController',NightfallController);
+
+var NotificationsController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('NotificationsController',NotificationsController);
+
+var ProfileController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('ProfileController',ProfileController);
+
+var RaidController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('RaidController',RaidController);
+
+var RegisterController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('RegisterController', RegisterController);
+
+var StrikeController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('StrikeController',StrikeController);
+
+var WeeklyController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+	$rootScope.loading = false;
+
+}];
+
+angular.module('Destiny.app').controller('WeeklyController',WeeklyController);
