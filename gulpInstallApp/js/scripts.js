@@ -1,7 +1,7 @@
 var settingFiles = [{"title":"Notifications","url":"/notifications","icon":"bell"}];
 var navigationFiles = [{"title":"Home","url":"/home","icon":"home"},{"title":"Daily","url":"/daily","icon":"gamepad"},{"title":"Weekly","url":"/weekly","icon":"gamepad"},{"title":"Nightfall","url":"/nightfall","icon":"gamepad"},{"title":"Raid","url":"/raid","icon":"gamepad"},{"title":"Strike","url":"/strike","icon":"gamepad"},{"title":"Missions","url":"/missions","icon":"gamepad"}];
 var routeFiles = {"/daily":{"controller":"DailyController","templateUrl":"modules/daily/daily.html"},"/home":{"controller":"HomeController","templateUrl":"modules/home/home.html"},"/login":{"controller":"LoginController","templateUrl":"modules/login/login.html"},"/missions":{"controller":"MissionsController","templateUrl":"modules/missions/missions.html"},"/nightfall":{"controller":"NightfallController","templateUrl":"modules/nightfall/nightfall.html"},"/notifications":{"controller":"NotificationsController","templateUrl":"modules/notifications/notifications.html"},"/profile":{"controller":"ProfileController","templateUrl":"modules/profile/profile.html"},"/raid":{"controller":"RaidController","templateUrl":"modules/raid/raid.html"},"/register":{"controller":"RegisterController","templateUrl":"modules/register/register.html"},"/strike":{"controller":"StrikeController","templateUrl":"modules/strike/strike.html"},"/weekly":{"controller":"WeeklyController","templateUrl":"modules/weekly/weekly.html"}};
-/** Created at Sun Nov 09 2014 14:05:56 GMT+0100 (CET) **//**
+/** Created at Sun Nov 09 2014 20:24:19 GMT+0100 (CET) **//**
  * @license AngularJS v1.3.2
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
@@ -40549,7 +40549,6 @@ var app = angular.module('Destiny.app', [
   'mobile-angular-ui',
 ]);
 
-
 app.config(['$routeProvider', function ($routeProvider) {
 
   angular.forEach(routeFiles, function(route, routeUrl) {
@@ -40570,7 +40569,13 @@ var DailyController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 
 angular.module('Destiny.app').controller('DailyController',DailyController);
 
-var HomeController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+var HomeController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
+
+	if (!$rootScope.signedIn) {
+		$location.path('/login');
+		return;
+	}
+
 	$rootScope.loading = false;
 	
 }];
@@ -40580,13 +40585,28 @@ angular.module('Destiny.app').controller('HomeController',HomeController);
 var LoginController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 	$rootScope.loading = false;
 
+	$scope.submitForm = function (formController) {
+		var emailAddress = formController.email.$modelValue;
+		var password     = formController.password.$modelValue;
+
+		$scope.errorMessage = '';
+		$scope.errorType    = 'validation';
+		
+		if (!formController.$valid || !angular.isString(emailAddress) || !angular.isString(password) ) {
+			$scope.errorMessage = 'Enter valid data please';
+		} else {
+			//socket.emit('requestLogin', { 'email' : emailAddress.toString(), 'password' : password.toString() });
+			alert('verstuurd');
+		}
+
+	};
 }];
 
 angular.module('Destiny.app').controller('LoginController', LoginController);
 
 var MainController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
 
-	$rootScope.signedIn = true;
+	$rootScope.signedIn = false;
 
 	$rootScope.auth = {
 		name: 'Danny van der Knaap'
@@ -40788,6 +40808,25 @@ angular.module('Destiny.app').controller('RaidController',RaidController);
 var RegisterController = ['$rootScope', '$scope', function ($rootScope, $scope) {
 	$rootScope.loading = false;
 
+	$scope.selectPlatform = function (platform) {
+		$scope.selectedPlatform = platform;
+	};
+
+	$scope.submitForm = function (formController) {
+		console.info(formController, 'formController');
+		var emailAddress = formController.email.$modelValue;
+		var password     = formController.password.$modelValue;
+
+		$scope.errorMessage = '';
+		$scope.errorType    = 'validation';
+		if (!formController.$valid || !angular.isString(emailAddress) || !angular.isString(password) ) {
+			$scope.errorMessage = 'Enter valid data please';
+		} else {
+			//socket.emit('requestLogin', { 'email' : emailAddress.toString(), 'password' : password.toString() });
+			alert('verstuurd');
+		}
+
+	};
 }];
 
 angular.module('Destiny.app').controller('RegisterController', RegisterController);

@@ -5,7 +5,6 @@ var app = angular.module('Destiny.app', [
   'mobile-angular-ui',
 ]);
 
-
 app.config(['$routeProvider', function ($routeProvider) {
 
   angular.forEach(routeFiles, function(route, routeUrl) {

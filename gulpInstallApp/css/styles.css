@@ -1,4 +1,4 @@
-/** Created at Sun Nov 09 2014 14:05:56 GMT+0100 (CET) **//*!
+/** Created at Sun Nov 09 2014 20:24:19 GMT+0100 (CET) **//*!
  *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
@@ -1691,7 +1691,7 @@ html, body {
 .navbar-app .btn,
 .navbar-brand {
   color: white;
-  line-height: 12px;
+  line-height: 25px;
   text-align: center;
   font-size: 12px;
   padding-left: 10px;
@@ -1846,4 +1846,79 @@ html, body {
 
 .appAlert input:focus {
    color: rgba(0, 0, 0, 0.8);
+}
+.page-login .panel-heading {
+    padding: 5px 15px;
+}
+
+.page-login .panel-footer {
+	padding: 1px 15px;
+	color: #A0A0A0;
+}
+
+.page-login .signinText {
+	margin-left:20px;
+}
+
+.page-register .panel-heading {
+    padding: 5px 15px;
+}
+
+.page-register .panel-footer {
+	padding: 1px 15px;
+	color: #A0A0A0;
+}
+
+.page-register .signinText {
+	margin-left:20px;
+}
+
+.page-register .platFormsTxt {
+	font-size:15px;
+}
+.page-register .platForms {
+	padding: 0;
+  list-style: outside none none;
+}
+
+.page-register .platForms .active {
+	background-color: rgb(71, 156, 228);
+	color:#fff;
+}
+.page-register .platForms a:before {
+  background: url("../img/spritePlatforms.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  content: "";
+  display: inline-block;
+  height: 26px;
+  margin-right: 15px;
+  vertical-align: middle;
+  width: 26px;
+}
+.page-register .platForms li a {
+  color: #171717;
+  display: block;
+  font-size: 12px;
+  line-height: 9px;
+  padding: 15px 20px;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.page-register .platForms .btnPlatform {
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  -ms-border-radius:10px;
+  border-radius:10px;
+}
+.page-register .platForms a.live:before {
+  background-position: 0 0;
+}
+.page-register .platForms a.psn:before {
+  background-position: 0 -26px;
+}
+.page-register .platForms a.facebook:before {
+  background-position: 0 -52px;
+}
+.page-register .platForms a.google:before {
+  background-position: 0 -78px;
 }

@@ -1,5 +1,11 @@
 
-var HomeController = ['$rootScope', '$scope', function ($rootScope, $scope) {
+var HomeController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
+
+	if (!$rootScope.signedIn) {
+		$location.path('/login');
+		return;
+	}
+
 	$rootScope.loading = false;
 	
 }];

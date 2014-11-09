@@ -1,0 +1,12 @@
+.page-login .panel-heading {
+    padding: 5px 15px;
+}
+
+.page-login .panel-footer {
+	padding: 1px 15px;
+	color: #A0A0A0;
+}
+
+.page-login .signinText {
+	margin-left:20px;
+}

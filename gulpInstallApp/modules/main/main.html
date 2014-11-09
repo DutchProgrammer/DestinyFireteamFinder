@@ -25,7 +25,15 @@
 <body ng-app="Destiny.app" ng-controller="MainController">
 
 	<div ng-if="!signedIn">
-		Signin pls
+		
+
+		<div class="app-body">
+				<div class="loading-state" ng-if="loading">
+					<i class="fa fa-spin fa-cog"></i>
+					Laden..
+				</div>
+				<ng-view class="app-content"></ng-view>
+		</div>
 	</div>
 
 	<div ng-if="signedIn">
@@ -95,7 +103,6 @@
 								<i class="fa fa-spin fa-cog"></i>
 								Laden..
 						</div>
-						<dyflexis-loader></dyflexis-loader>
 						<ng-view class="app-content"></ng-view>
 				</div>
 

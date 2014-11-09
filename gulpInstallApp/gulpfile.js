@@ -277,6 +277,7 @@ gulp.task('build-phonegap', ['build-main'], shell.task([
    'rsync -av fonts ../www/',
    'rsync -av css ../www/',
    'rsync -av js ../www/',
+   'rsync -av img ../www/',
    //'rsync -av sound ../www/',
    'rsync -av  modules ../www/',
    'cd ../ && phonegap remote build android'

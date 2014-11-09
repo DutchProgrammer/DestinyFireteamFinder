@@ -1,7 +1,7 @@
 
 var MainController = ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
 
-	$rootScope.signedIn = true;
+	$rootScope.signedIn = false;
 
 	$rootScope.auth = {
 		name: 'Danny van der Knaap'
